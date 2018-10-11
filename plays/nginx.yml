@@ -1,0 +1,12 @@
+---
+
+- name: NINGX PLAYBOOK
+  hosts: nginx
+  remote_user: kitchen
+  become: yes
+
+  tasks:
+
+  - name: Start <role> | install nginx
+    import_role: 
+      name: ansible-role-nginx

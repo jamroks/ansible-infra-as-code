@@ -1,0 +1,12 @@
+source "https://rubygems.org"
+
+gem "test-kitchen"
+gem "docker"
+gem "kitchen-ansible"
+gem "kitchen-docker"
+gem "rspec"
+gem "minitar-cli"
+gem "minitar"
+gem "yarjuf"
+gem "kitchen-verifier-serverspec"
+gem "kitchen-sync"

@@ -1,0 +1,109 @@
+---
+
+# Requirements :
+# gem install kitchen-docker kitchen-ansible
+
+
+driver:
+  name: docker
+  use_sudo: false
+  require_chef_omnibus: false # No need of chef
+  require_ruby_for_busser: true
+  private_key: spec/id_rsa
+  public_key: spec/id_rsa.pub
+
+
+provisioner:
+    name: ansible_playbook
+    ansible_version: latest
+    require_ansible_repo: false
+    ansible_connection: ssh
+    ansible_host_key_checking: false
+    playbook: playbook.yml
+    private_key: spec/id_rsa # ---#########################################--- Not needed ?
+    require_chef_for_busser: false
+    ansible_inventory: ./kitchen-hosts
+    ansible_verbose: true
+    ansible_verbosity: 2
+    additional_copy_path:
+        - plays
+    ignore_extensions_from_root: [".git"]
+    ignore_paths_from_root: [".git",".kitchen","bin"]
+
+transport:
+     max_ssh_sessions: 5
+  
+verifier:
+     name: serverspec
+     sudo_path: true
+     patterns:
+           - roles/ansible-role-nginx/spec/nginx/nginx_spec.rb
+     bundler_path: '/usr/local/bin'
+     rspec_path: '/usr/local/bin'
+     
+
+platforms:
+      - name: centos-kitchen
+        driver_config:
+          image: 'kemet/centos7-spec'
+
+  
+suites:
+    - name: case1
+      provisioner:
+        ansible_playbook_command: echo 'NOOOP ANSIBLE'
+        require_ansible_omnibus: false
+        require_ansible_source: false
+        require_ansible_repo: false
+        require_ruby_for_busser: true
+      driver:
+        provision_command:
+          - "yum -y install iproute"
+          - "yum -y install net-tools"
+          - "yum -y install vim"
+          - "yum -y install unzip"
+        run_command: '/usr/sbin/init'
+      driver_config:
+        hostname: case1
+        instance_name: case1
+        privileged: true
+        volume: /sys/fs/cgroup:/sys/fs/cgroup
+<<<<<<< HEAD
+=======
+      # verifier:
+      # # patterns:
+      # #      - roles/ansible-role-nginx/spec/nginx_spec.rb
+      # # bundler_path: '/usr/local/bin'
+      # # rspec_path: '/usr/local/bin'
+>>>>>>> adding tests
+
+    - name: ansible
+      provisioner:
+        require_ansible_omnibus: false
+        require_ansible_repo: true
+        require_chef_for_busser: false
+        require_ruby_for_busser: false
+        private_key: spec/id_rsa
+        ansible_verbosity: 2
+      driver:
+        provision_command:
+          - "yum -y install iproute"
+          - "yum -y install net-tools"
+          - "yum -y install vim"
+          - "sudo -H pip install  ansible==2.5.4"
+          - "sudo -H pip install  Jinja2==2.10"
+          - "sudo -H pip install  jmespath"
+          - "sudo -H pip install  lxml"
+        run_command: '/usr/sbin/init'
+      driver_config:
+        hostname: ansible
+        instance_name: 'ansible'
+        privileged: true
+        volume: /sys/fs/cgroup
+        links:
+          - case1:case1
+
+
+
+
+
