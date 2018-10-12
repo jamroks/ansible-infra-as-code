@@ -38,8 +38,13 @@
     owner: root
     group: "{{ root_group }}"
     mode: 0644
-  notify:
-    - reload nginx
 
-- name: Ensure nginx is started and enabled to start at boot.
-  service: name=nginx state=started enabled=yes
+
+# - name: Ensure nginx is started and enabled to start at boot.
+#   service: 
+#     name: nginx 
+#     state: started 
+#     enabled: yes
+#   notify:
+#     - reload nginx
+#   when: nginx_is_wanted | bool

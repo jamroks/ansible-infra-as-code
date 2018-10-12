@@ -8,7 +8,19 @@
     mode: 0644
   when: nginx_yum_repo_enabled
 
-- name: Ensure nginx is installed.
-  yum:
-    name: "{{ nginx_package_name }}"
-    state: installed
+- name: Setup Nginx Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+      - /etc/nginx
+      - /etc/nginx/conf.d
+
+# - name: Ensure nginx is installed.
+#   yum:
+#     name: "{{ nginx_package_name }}"
+#     state: installed
+#   when: nginx_is_wanted | bool 
