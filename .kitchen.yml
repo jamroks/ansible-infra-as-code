@@ -68,14 +68,11 @@ suites:
         instance_name: case1
         privileged: true
         volume: /sys/fs/cgroup:/sys/fs/cgroup
-<<<<<<< HEAD
-=======
       # verifier:
       # # patterns:
       # #      - roles/ansible-role-nginx/spec/nginx_spec.rb
       # # bundler_path: '/usr/local/bin'
       # # rspec_path: '/usr/local/bin'
->>>>>>> adding tests
 
     - name: ansible
       provisioner:
