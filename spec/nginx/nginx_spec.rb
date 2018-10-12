@@ -3,14 +3,18 @@ require 'serverspec'
 # Required by serverspec
 set :backend, :exec
 
-describe "Nginx Daemon" do
 
-  it "is listening on port 80" do
-    expect(port(80)).to be_listening
-  end
+require 'spec_helper'
 
-  it "has a running service of nginx" do
-    expect(service("nginx")).to be_running
-  end
+describe package('nginx'), :if => os[:family] == 'redhat' do
+  it { should be_installed }
+end
 
+describe service('nginx'), :if => os[:family] == 'redhat' do
+  it { should be_enabled }
+  it { should be_running }
+end
+
+describe port(80) do
+  it { should be_listening }
 end
