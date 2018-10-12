@@ -40,7 +40,7 @@
     mode: 0644
 
 
-# - name: Ensure nginx is started and enabled to start at boot.
+# - name: Ensure nginx is started/enabled at boot.
 #   service: 
 #     name: nginx 
 #     state: started 
