@@ -9,4 +9,4 @@
 
   - name: Start <role> | install nginx
     import_role: 
-      name: ansible-role-nginx
+      name: ansible-infra-as-code
